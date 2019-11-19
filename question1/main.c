@@ -11,18 +11,25 @@ struct node
 *stnode, *ennode;
 
 void DlListcreation(int n);
-void displayDlListRev();
+void displayDlList(int m);
+void DlLinsertNodeAtBeginning(int num);
 
 int main()
 {
-    int n;
+    int n, num1, a;
     stnode = NULL;
     ennode = NULL;
 
     printf(" Input the number of nodes : ");
     scanf("%d", &n);
     DlListcreation(n);
-    displayDlListRev();
+    a = 1;
+    displayDlList(a);
+    printf(" Input data for the first node : ");
+    scanf("%d", &num1);
+    DlLinsertNodeAtBeginning(num1);
+    a=2;
+    displayDlList(a);
     return 0;
 }
 
@@ -67,23 +74,47 @@ void DlListcreation(int n)
         }
     }
 }
-void displayDlListRev()
+
+void DlLinsertNodeAtBeginning(int num)
+{
+    struct node * newnode;
+    if(stnode == NULL)
+    {
+        printf(" No data found in the list\n");
+    }
+    else
+    {
+        newnode = (struct node *)malloc(sizeof(struct node));
+        newnode->num = num;
+        newnode->nextptr = stnode;
+        newnode->preptr = NULL;
+        stnode->preptr = newnode;
+        stnode = newnode;
+    }
+}
+void displayDlList(int m)
 {
     struct node *tmp;
-    int n = 0;
-    if(ennode == NULL)
+    int n = 1;
+    if(stnode == NULL)
     {
         printf(" No data found in the List yet.");
     }
     else {
-      tmp = ennode;
-      printf("\n\n Data in reverse order are :\n");
-
+      tmp = stnode;
+      if(m == 1)
+      {
+          printf("\n Data entered in the list are :\n");
+      }
+      else
+      {
+          printf("\n After insertion the new list are :\n");
+      }
       while(tmp!=NULL)
       {
-          printf(" Data in node %d : %d\n", n+1, tmp->num);
+          printf(" node %d : %d\n", n+1, tmp->num);
           n++;
-          tmp = tmp->preptr;
+          tmp = tmp->nextptr;
 
       }
     }
