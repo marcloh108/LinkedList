@@ -9,22 +9,19 @@ struct node {
 struct node *tail,*p,*q,*store;
 
 void ClListcreation(int n);
-void ClListDeleteMiddle(int pos);
+void ClListDeleteLastNode();
 void displayClList(int a);
 
 int main()
 {
     int n,num1,a,pos;
     stnode = NULL;
-
     printf(" Input the number of nodes : ");
     scanf("%d", &n);
     ClListcreation(n);
     a=1;
     displayClList(a);
-    printf("\n Input the position to delete the node : ");
-    scanf("%d",&pos);
-    ClListDeleteMiddle(pos);
+    ClListDeleteLastNode();
     a=2;
     displayClList(a);
     return 0;
@@ -58,18 +55,15 @@ void ClListcreation(int n)
     }
 }
 
-void ClListDeleteMiddle(int pos)
+void ClListDeleteLastNode()
 {
-        int delNode,k=1;
-        delNode=pos;
         p=stnode;
-        while(k!=delNode)
+        while(p->nextptr!=stnode)
         {
             q=p;
             p=p->nextptr;
-            k++;
         }
-        q->nextptr=p->nextptr;
+        q->nextptr=stnode;
         printf("\n The deleted node is : %d",p->num);
         free(p);
 }
