@@ -11,33 +11,20 @@ struct node
 
 
 void DlListcreation(int n);
-void DlListDeleteMiddleNode(int pos);
-void displayDlList(int a);
+int getMaxNode(struct node *stnode);
+void displayDlList();
 
 int main()
 {
-    int n,num1,a,insPlc;
+    int n;
     stnode = NULL;
     ennode = NULL;
 
-    printf(" Input the number of nodes (3 or more): ");
+    printf(" Input the number of nodes : ");
     scanf("%d", &n);
     DlListcreation(n);
-    a=1;
-    displayDlList(a);
-    printf(" Input the position ( 1 to %d ) to delete a node : ",n);
-    scanf("%d", &insPlc);
-
-    if(insPlc<1 || insPlc>n)
-    {
-        printf("\n Invalid position. Try again. \n");
-    }
-        if(insPlc>=1 && insPlc<=n)
-        {
-            DlListDeleteMiddleNode(insPlc);
-            a=2;
-            displayDlList(a);
-        }
+    displayDlList();
+    printf("\n The Maximum Value in the Linked List : %d\n\n", getMaxNode(stnode));
     return 0;
 }
 
@@ -86,64 +73,26 @@ void DlListcreation(int n)
     }
 }
 
-void DlListDeleteMiddleNode(int pos)
+int getMaxNode(struct node *stnode)
 {
-    struct node *curNode;
-    int i;
-
-    curNode = stnode;
-    for(i=1;i<pos && curNode!=NULL;i++)
-    {
-        curNode = curNode->nextptr;
-    }
-
-    if(curNode != NULL)
-    {
-        curNode->preptr->nextptr = curNode->nextptr;
-        curNode->nextptr->preptr = curNode->preptr;
-
-        free(curNode);
-    }
-    else
-    {
-        printf(" The given position is invalid!\n");
-    }
-}
-
-void DlListDeleteFirstNode()
-{
-    struct node * NodeToDel;
     if(stnode == NULL)
     {
-        printf(" Delete is not possible. No data in the list.\n");
+        printf(" User message : Invalid Input !!!!\n");
+
     }
-    else
+    int max = stnode->num;
+    while(stnode != NULL)
     {
-        NodeToDel = stnode;
+        if(stnode->num > max)
+        {
+            max = stnode->num;
+        }
         stnode = stnode->nextptr;
-        stnode->preptr = NULL;
-        free(NodeToDel);
     }
+    return max;
 }
 
-void DlListDeleteLastNode()
-{
-    struct node * NodeToDel;
-    if(ennode == NULL)
-    {
-        printf(" Delete is not possible. No data in the list.\n");
-    }
-    else
-    {
-        NodeToDel = ennode;
-        ennode = ennode->preptr;
-        ennode->nextptr = NULL;
-        free(NodeToDel);
-    }
-}
-
-
-void displayDlList(int m)
+void displayDlList()
 {
     struct node * tmp;
     int n = 1;
@@ -154,14 +103,8 @@ void displayDlList(int m)
     else
     {
         tmp = stnode;
-        if (m==1)
-        {
         printf("\n Data entered in the list are :\n");
-        }
-        else
-        {
-         printf("\n After deletion the new list are :\n");
-        }
+
         while(tmp != NULL)
         {
             printf(" node %d : %d\n", n, tmp->num);
