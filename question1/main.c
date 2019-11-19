@@ -4,58 +4,87 @@
 struct node
 {
   int num;
+  struct node * preptr;
   struct node *nextptr;
 }
 
-stnode, *ennode;
+*stnode, *ennode;
 
-int FindElement(int);
-void main()
+void DlListcreation(int n);
+void displayDlList();
+
+int main()
 {
-    int n,i,FindElem,FindPlc;
-    stnode.nextptr=NULL;
-    ennode=&stnode;
+    int n;
+    stnode = NULL;
+    ennode = NULL;
 
     printf(" Input the number of nodes : ");
     scanf("%d", &n);
-    printf("\n");
-    for(i=0;i< n;i++)
-    {
-        ennode->nextptr=(struct node *)malloc(sizeof(struct node));
-        printf(" Input data for node %d : ",i+1);
-        scanf("%d",&ennode->num);
-        ennode=ennode->nextptr;
-    }
-    ennode->nextptr=NULL;
-    printf("\n Data entered in the list are :\n");
-
-    ennode=&stnode;
-    while(ennode->nextptr!=NULL)
-    {
-        printf(" Data = %d\n",ennode->num);
-        ennode=ennode->nextptr;
-    }
-
-    printf("\n");
-    printf(" Input the element to be searched : ");
-    scanf("%d",&FindElem);
-    FindPlc=FindElement(FindElem);
-    if(FindPlc<=n)
-        printf(" Element found at node %d \n\n",FindPlc);
-    else
-        printf(" This element does not exists in linked list.\n\n");
+    DlListcreation(n);
+    displayDlList();
+    return 0;
 }
-int FindElement(int FindElem)
+
+void DlListcreation(int n)
 {
-    int ctr=1;
-    ennode=&stnode;
-    while(ennode->nextptr!=NULL)
+    int i, num;
+    struct node *fnNode;
+
+    if(n >= 1)
     {
-        if(ennode->num==FindElem)
-            break;
-        else
-            ctr++;
-            ennode=ennode->nextptr;
+        stnode = (struct node *)malloc(sizeof(struct node));
+
+        if(stnode != NULL)
+        {
+            printf(" Input data for node 1 : ");
+            scanf("%d", &num);
+
+            stnode->num = num;
+            stnode->preptr = NULL;
+            stnode->nextptr = NULL;
+            ennode = stnode;
+
+            for(i=2; i<=n; i++)
+            {
+                fnNode = (struct node *)malloc(sizeof(struct node));
+                if(fnNode != NULL)
+                {
+                    printf(" Input data for node %d : ", i);
+                    scanf("%d", &num);
+                    fnNode ->num = num;
+                    fnNode->preptr = ennode;
+                    fnNode->nextptr = NULL;
+
+                    ennode->nextptr = fnNode;
+                    ennode = fnNode;
+                }
+                else
+                {
+                    printf(" Memory can not be allocated");
+                }
+            }
+        }
     }
-    return ctr;
+}
+void displayDlList()
+{
+    struct node *tmp;
+    int n = 1;
+    if(stnode == NULL)
+    {
+        printf(" No data found in the List yet.");
+    }
+    else {
+      tmp = stnode;
+      printf("\n\n Data entered on the list are :\n");
+
+      while(tmp!=NULL)
+      {
+          printf(" node %d : %d\n", n, tmp->num);
+          n++;
+          tmp = tmp->nextptr;
+
+      }
+    }
 }
