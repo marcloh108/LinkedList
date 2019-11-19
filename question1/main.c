@@ -4,95 +4,55 @@
 struct node
 {
     int num;
-    struct node * preptr;
     struct node * nextptr;
 }
-*stnode, *ennode;
+*stnode;
 
 
-void DlListcreation(int n);
-int getMaxNode(struct node *stnode);
-void displayDlList();
+void ClListcreation(int n);
+void displayClList();
 
 int main()
 {
     int n;
     stnode = NULL;
-    ennode = NULL;
 
     printf(" Input the number of nodes : ");
     scanf("%d", &n);
-    DlListcreation(n);
-    displayDlList();
-    printf("\n The Maximum Value in the Linked List : %d\n\n", getMaxNode(stnode));
+    ClListcreation(n);
+    displayClList();
     return 0;
 }
 
-void DlListcreation(int n)
+void ClListcreation(int n)
 {
     int i, num;
-    struct node *fnNode;
+    struct node *preptr, *newnode;
 
     if(n >= 1)
     {
-        stnode = (struct node *)malloc(sizeof(struct node));
-
-        if(stnode != NULL)
-        {
+            stnode = (struct node *)malloc(sizeof(struct node));
             printf(" Input data for node 1 : "); // assigning data in the first node
             scanf("%d", &num);
 
             stnode->num = num;
-            stnode->preptr = NULL;
             stnode->nextptr = NULL;
-            ennode = stnode;
+            preptr = stnode;
             for(i=2; i<=n; i++)
             {
-                fnNode = (struct node *)malloc(sizeof(struct node));
-                if(fnNode != NULL)
-                {
+                    newnode = (struct node *)malloc(sizeof(struct node));
                     printf(" Input data for node %d : ", i);
                     scanf("%d", &num);
-                    fnNode->num = num;
-                    fnNode->preptr = ennode;    // new node is linking with the previous node
-                    fnNode->nextptr = NULL;     // set next address of fnnode is NULL
-                    ennode->nextptr = fnNode;   // previous node is linking with the new node
-                    ennode = fnNode;            // assign new node as last node
-                }
-                else
-                {
-                    printf(" Memory can not be allocated.");
-                    break;
-                }
-            }
-        }
-        else
-        {
-            printf(" Memory can not be allocated.");
-        }
+                    newnode->num = num;
+                    newnode->nextptr = NULL;
+                    preptr->nextptr = newnode;
+                    preptr = newnode;
+             }
+                preptr->nextptr = stnode;
     }
 }
 
-int getMaxNode(struct node *stnode)
-{
-    if(stnode == NULL)
-    {
-        printf(" User message : Invalid Input !!!!\n");
-
-    }
-    int max = stnode->num;
-    while(stnode != NULL)
-    {
-        if(stnode->num > max)
-        {
-            max = stnode->num;
-        }
-        stnode = stnode->nextptr;
-    }
-    return max;
-}
-
-void displayDlList()
+void displayClList()
 {
     struct node * tmp;
     int n = 1;
@@ -105,11 +65,11 @@ void displayDlList()
         tmp = stnode;
         printf("\n Data entered in the list are :\n");
 
-        while(tmp != NULL)
+        do
         {
-            printf(" node %d : %d\n", n, tmp->num);
+            printf(" Data %d : %d\n", n, tmp->num);
             n++;
             tmp = tmp->nextptr; // current pointer moves to the next node
-        }
+        }while(tmp != stnode);
     }
 }
