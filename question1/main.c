@@ -8,9 +8,11 @@ struct node
 }
 *stnode;
 
+struct node *tail, *p, *q, *store;
+
 
 void ClListcreation(int n);
-void ClLinsertNodeAtBeginning(int num);
+void ClLinsertNodeAtEnd(int num);
 void displayClList(int a);
 
 int main()
@@ -23,9 +25,9 @@ int main()
     ClListcreation(n);
     a = 1;
     displayClList(a);
-    printf(" Input data to be inserted at the beginning : ");
+    printf(" Input data to be inserted : ");
     scanf("%d", &num1);
-    ClLinsertNodeAtBeginning(num1);
+    ClLinsertNodeAtEnd(num1);
     a = 2;
     displayClList(a);
     return 0;
@@ -58,26 +60,20 @@ void ClListcreation(int n)
     }
 }
 
-void ClLinsertNodeAtBeginning(int num)
+void ClLinsertNodeAtEnd(int num)
 {
-    struct node *newnode, *curNode;
-    if(stnode == NULL)
-    {
-        printf(" No data found in the List yet.");
-    }
-    else
-    {
-        newnode = (struct node *)malloc(sizeof(struct node));
-        newnode->num = num;
-        newnode->nextptr = stnode;
-        curNode = stnode;
-        while(curNode->nextptr != stnode)
+    int a;
+    a=num;
+    struct node *temp = (struct node*)malloc(sizeof(struct node));
+    temp->num=a;
+    p = stnode;
+        while(p->nextptr!=stnode)
         {
-           curNode = curNode->nextptr;
+           p=p->nextptr;
         }
-        curNode->nextptr = newnode;
-        stnode = newnode;
-    }
+        p->nextptr=temp;
+        temp->nextptr=stnode;
+
 }
 void displayClList(int m)
 {
