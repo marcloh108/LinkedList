@@ -11,9 +11,7 @@ struct node
 
 
 void DlListcreation(int n);
-void DlListDeleteFirstNode();
-void DlListDeleteLastNode();
-void DlListDeleteAnyNode(int pos);
+void DlListDeleteMiddleNode(int pos);
 void displayDlList(int a);
 
 int main()
@@ -36,7 +34,7 @@ int main()
     }
         if(insPlc>=1 && insPlc<=n)
         {
-            DlListDeleteAnyNode(insPlc);
+            DlListDeleteMiddleNode(insPlc);
             a=2;
             displayDlList(a);
         }
@@ -88,7 +86,7 @@ void DlListcreation(int n)
     }
 }
 
-void DlListDeleteAnyNode(int pos)
+void DlListDeleteMiddleNode(int pos)
 {
     struct node *curNode;
     int i;
@@ -99,22 +97,16 @@ void DlListDeleteAnyNode(int pos)
         curNode = curNode->nextptr;
     }
 
-    if(pos == 1)
-    {
-        DlListDeleteFirstNode();
-    }
-    else if(curNode == ennode)
-    {
-        DlListDeleteLastNode();
-    }
-    else if(curNode != NULL)
+    if(curNode != NULL)
     {
         curNode->preptr->nextptr = curNode->nextptr;
         curNode->nextptr->preptr = curNode->preptr;
+
+        free(curNode);
     }
     else
     {
-        printf(" The given position is invalid\n");
+        printf(" The given position is invalid!\n");
     }
 }
 
