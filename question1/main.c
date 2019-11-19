@@ -14,15 +14,14 @@ void NodeInsertatBegin(int num);
 int main()
 {
     int n, num;
-        printf("\n\n Linked List : Create a singly linked list and print it in reverse order :\n");
-        printf("-------------------------------------------------------------\n");
+
 
     printf(" Input the number of nodes : ");
     scanf("%d", &n);
     createNodeList(n);
     printf("\n Data entered in the list : \n");
     displayList();
-    printf("\n Input data to insert at the beginning of the list : ");
+    printf("\n Input data to insert at the end of the list : ");
     scanf("%d", &num);
     NodeInsertatBegin(num);
     printf("\n Data after inserted in the list are : \n");
