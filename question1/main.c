@@ -9,11 +9,11 @@ struct node
 
 void createNodeList(int n); // function to create the list
 void displayList();         // function to display the list
-void FirstNodeDeletion();
+void MiddleNodeDeletion();
 
 int main()
 {
-    int n;
+    int n, num, pos;
 
 
     printf(" Input the number of nodes : ");
@@ -21,8 +21,18 @@ int main()
     createNodeList(n);
     printf("\n Data entered in the list : \n");
     displayList();
-    FirstNodeDeletion();
-    printf("\n Data after deletion of the first node : \n");
+    printf("\n Input the position of node to delete : ");
+    scanf("%d", &pos);
+
+    if(pos<=1 || pos>=n)
+    {
+        printf("\n Deletion can not be possible from that position.\n");
+    }
+        if(pos>1 && pos<n)
+        {
+            printf("\n Deletion completed succesffully. \n ");
+            MiddleNodeDeletion(pos);
+        }
     displayList();
 
     return 0;
@@ -70,19 +80,40 @@ void createNodeList(int n)
     }
 }
 
-void FirstNodeDeletion()
+void MiddleNodeDeletion(int pos)
 {
-    struct node *toDelptr;
+    int i;
+    struct node *toDelmid, *preNode;
     if(stnode == NULL)
     {
         printf(" There are no node in the list. ");
     }
     else
     {
-        toDelptr = stnode;
-        stnode = stnode->nextptr;
-        printf("\n Data of node 1 which is being deleted is : %d\n", toDelptr->num);
-        free(toDelptr);
+        toDelmid = stnode;
+        preNode = stnode;
+
+        for(i=2;i<=pos;i++)
+        {
+            preNode = toDelmid;
+            toDelmid = toDelmid->nextptr;
+
+            if(toDelmid == NULL)
+                break;
+        }
+        if(toDelmid != NULL)
+        {
+            if(toDelmid == stnode)
+                stnode = stnode->nextptr;
+
+            preNode->nextptr = toDelmid->nextptr;
+            toDelmid->nextptr = NULL;
+            free(toDelmid);
+        }
+        else
+        {
+            printf(" Deletion can not be possible from that position.");
+        }
     }
 }
 
