@@ -12,7 +12,7 @@ struct node
 
 void DlListcreation(int n);
 void displayDlList(int m);
-void DlLinsertNodeAtBeginning(int num);
+void DlLinsertNodeAtEnd(int num);
 
 int main()
 {
@@ -25,9 +25,9 @@ int main()
     DlListcreation(n);
     a = 1;
     displayDlList(a);
-    printf(" Input data for the first node : ");
+    printf(" Input data for the last node : ");
     scanf("%d", &num1);
-    DlLinsertNodeAtBeginning(num1);
+    DlLinsertNodeAtEnd(num1);
     a=2;
     displayDlList(a);
     return 0;
@@ -75,10 +75,10 @@ void DlListcreation(int n)
     }
 }
 
-void DlLinsertNodeAtBeginning(int num)
+void DlLinsertNodeAtEnd(int num)
 {
     struct node * newnode;
-    if(stnode == NULL)
+    if(ennode == NULL)
     {
         printf(" No data found in the list\n");
     }
@@ -86,10 +86,10 @@ void DlLinsertNodeAtBeginning(int num)
     {
         newnode = (struct node *)malloc(sizeof(struct node));
         newnode->num = num;
-        newnode->nextptr = stnode;
-        newnode->preptr = NULL;
-        stnode->preptr = newnode;
-        stnode = newnode;
+        newnode->nextptr = NULL;
+        newnode->preptr = ennode;
+        ennode->nextptr = newnode;
+        ennode = newnode;
     }
 }
 void displayDlList(int m)
@@ -110,9 +110,9 @@ void displayDlList(int m)
       {
           printf("\n After insertion the new list are :\n");
       }
-      while(tmp!=NULL)
+      while(tmp != NULL)
       {
-          printf(" node %d : %d\n", n+1, tmp->num);
+          printf(" node %d : %d\n", n, tmp->num);
           n++;
           tmp = tmp->nextptr;
 
