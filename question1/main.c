@@ -11,7 +11,7 @@ struct node
 *stnode, *ennode;
 
 void DlListcreation(int n);
-void displayDlList();
+void displayDlListRev();
 
 int main()
 {
@@ -22,7 +22,7 @@ int main()
     printf(" Input the number of nodes : ");
     scanf("%d", &n);
     DlListcreation(n);
-    displayDlList();
+    displayDlListRev();
     return 0;
 }
 
@@ -67,23 +67,23 @@ void DlListcreation(int n)
         }
     }
 }
-void displayDlList()
+void displayDlListRev()
 {
     struct node *tmp;
-    int n = 1;
-    if(stnode == NULL)
+    int n = 0;
+    if(ennode == NULL)
     {
         printf(" No data found in the List yet.");
     }
     else {
-      tmp = stnode;
-      printf("\n\n Data entered on the list are :\n");
+      tmp = ennode;
+      printf("\n\n Data in reverse order are :\n");
 
       while(tmp!=NULL)
       {
-          printf(" node %d : %d\n", n, tmp->num);
+          printf(" Data in node %d : %d\n", n+1, tmp->num);
           n++;
-          tmp = tmp->nextptr;
+          tmp = tmp->preptr;
 
       }
     }
