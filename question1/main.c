@@ -11,7 +11,7 @@ struct node
 
 
 void DlListcreation(int n);
-void DlLinsertNodeAtMiddle(int num, int pos);
+void DlListDeleteFirstNode();
 void displayDlList(int a);
 
 int main()
@@ -25,21 +25,9 @@ int main()
     DlListcreation(n);
     a=1;
     displayDlList(a);
-    printf(" Input the position ( 2 to %d ) to insert a new node : ",n-1);
-    scanf("%d", &insPlc);
-
-    if (insPlc<=1 || insPlc>=n)
-    {
-        printf("\n Invalid position. Try again.\n");
-    }
-        if(insPlc>1 && insPlc<n)
-        {
-            printf(" Input data for the position %d : ", insPlc);
-            scanf("%d", &num1);
-            DlLinsertNodeAtMiddle(num1, insPlc);
-            a=2;
-            displayDlList(a);
-        }
+    DlListDeleteFirstNode();
+    a=2;
+    displayDlList(a);
     return 0;
 }
 
@@ -88,41 +76,19 @@ void DlListcreation(int n)
     }
 }
 
-void DlLinsertNodeAtMiddle(int num, int pos)
+void DlListDeleteFirstNode()
 {
-    int i;
-    struct node * newnode, *tmp;
+    struct node * NodeToDel;
     if(ennode == NULL)
     {
-        printf(" No data found in the list!\n");
+        printf(" Delete is not possible. No data in the list.\n");
     }
     else
     {
-        tmp = stnode;
-        i=1;
-        while(i<pos-1 && tmp!=NULL)
-        {
-            tmp = tmp->nextptr;
-            i++;
-        }
-        if(tmp!=NULL)
-        {
-            newnode = (struct node *)malloc(sizeof(struct node));
-            newnode->num = num;
-//next address of new node is linking with the next address of temp node
-            newnode->nextptr = tmp->nextptr;
-// previous address of new node is linking with the tmp node
-            newnode->preptr = tmp;
-            if(tmp->nextptr != NULL)
-            {
-                tmp->nextptr->preptr = newnode; // n+1th node is linking with new node
-            }
-            tmp->nextptr = newnode; // n-1th node is linking with new node
-        }
-        else
-        {
-            printf(" The position you entered, is invalid.\n");
-        }
+        NodeToDel = stnode;
+        stnode = stnode->nextptr;
+        stnode->preptr = NULL;
+        free(NodeToDel);
     }
 }
 
@@ -144,7 +110,7 @@ void displayDlList(int m)
         }
         else
         {
-         printf("\n After insertion the new list are :\n");
+         printf("\n After deletion the new list are :\n");
         }
         while(tmp != NULL)
         {
