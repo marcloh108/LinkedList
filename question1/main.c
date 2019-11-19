@@ -8,16 +8,15 @@ struct node
 }
 *stnode;
 
-struct node *tail, *p, *q, *store;
-
 
 void ClListcreation(int n);
-void ClLinsertNodeAtEnd(int num);
+void ClLinsertNodeAtBeginning(int num);
+void ClLinsertNodeAtAny(int num, int pos);
 void displayClList(int a);
 
 int main()
 {
-    int n, num1, a;
+    int n, num1, a, insPlc;
     stnode = NULL;
 
     printf(" Input the number of nodes : ");
@@ -25,9 +24,11 @@ int main()
     ClListcreation(n);
     a = 1;
     displayClList(a);
-    printf(" Input data to be inserted : ");
+    printf(" Input the position to insert a new node : ");
+    scanf("%d", &insPlc);
+    printf(" Input data for the position %d : ", insPlc);
     scanf("%d", &num1);
-    ClLinsertNodeAtEnd(num1);
+    ClLinsertNodeAtAny(num1, insPlc);
     a = 2;
     displayClList(a);
     return 0;
@@ -60,20 +61,53 @@ void ClListcreation(int n)
     }
 }
 
-void ClLinsertNodeAtEnd(int num)
+void ClLinsertNodeAtBeginning(int num)
 {
-    int a;
-    a=num;
-    struct node *temp = (struct node*)malloc(sizeof(struct node));
-    temp->num=a;
-    p = stnode;
-        while(p->nextptr!=stnode)
+    struct node *newnode, *curNode;
+    if(stnode == NULL)
+    {
+        printf(" No data found in the List yet.");
+    }
+    else
+    {
+        newnode = (struct node *)malloc(sizeof(struct node));
+        newnode->num = num;
+        newnode->nextptr = stnode;
+        curNode = stnode;
+        while(curNode->nextptr != stnode)
         {
-           p=p->nextptr;
+           curNode = curNode->nextptr;
         }
-        p->nextptr=temp;
-        temp->nextptr=stnode;
+        curNode->nextptr = newnode;
+        stnode = newnode;
+    }
+}
 
+void ClLinsertNodeAtAny(int num, int pos)
+{
+    struct node *newnode, *curNode;
+    int i;
+
+    if(stnode == NULL)
+    {
+        printf(" No data found in the list yet.");
+    }
+    else if(pos == 1)
+    {
+        ClLinsertNodeAtBeginning(num);
+    }
+    else
+    {
+        newnode = (struct node *)malloc(sizeof(struct node));
+        newnode->num = num;
+        curNode = stnode;
+        for(i = 2; i <= pos-1; i++)
+        {
+            curNode = curNode->nextptr;
+        }
+        newnode->nextptr = curNode->nextptr;
+        curNode->nextptr = newnode;
+    }
 }
 void displayClList(int m)
 {
