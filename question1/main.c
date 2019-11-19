@@ -9,7 +9,7 @@ struct node
 
 void createNodeList(int n); // function to create the list
 void displayList();         // function to display the list
-void MiddleNodeDeletion();
+void LastNodeDeletion();
 
 int main()
 {
@@ -21,18 +21,8 @@ int main()
     createNodeList(n);
     printf("\n Data entered in the list : \n");
     displayList();
-    printf("\n Input the position of node to delete : ");
-    scanf("%d", &pos);
-
-    if(pos<=1 || pos>=n)
-    {
-        printf("\n Deletion can not be possible from that position.\n");
-    }
-        if(pos>1 && pos<n)
-        {
-            printf("\n Deletion completed succesffully. \n ");
-            MiddleNodeDeletion(pos);
-        }
+    LastNodeDeletion();
+        printf("\n The new list after deletion the last node are : \n");
     displayList();
 
     return 0;
@@ -80,40 +70,32 @@ void createNodeList(int n)
     }
 }
 
-void MiddleNodeDeletion(int pos)
+void LastNodeDeletion(int pos)
 {
-    int i;
-    struct node *toDelmid, *preNode;
+    struct node *toDellast, *preNode;
     if(stnode == NULL)
     {
         printf(" There are no node in the list. ");
     }
     else
     {
-        toDelmid = stnode;
+        toDellast = stnode;
         preNode = stnode;
-
-        for(i=2;i<=pos;i++)
+        while(toDellast->nextptr != NULL)
         {
-            preNode = toDelmid;
-            toDelmid = toDelmid->nextptr;
-
-            if(toDelmid == NULL)
-                break;
+            preNode = toDellast;
+            toDellast = toDellast->nextptr;
         }
-        if(toDelmid != NULL)
+        if(toDellast == stnode)
         {
-            if(toDelmid == stnode)
-                stnode = stnode->nextptr;
-
-            preNode->nextptr = toDelmid->nextptr;
-            toDelmid->nextptr = NULL;
-            free(toDelmid);
+            stnode = NULL;
         }
         else
         {
-            printf(" Deletion can not be possible from that position.");
+            preNode->nextptr = NULL;
         }
+        free(toDellast);
+
     }
 }
 
