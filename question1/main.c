@@ -9,11 +9,11 @@ struct node
 
 void createNodeList(int n); // function to create the list
 void displayList();         // function to display the list
-void insertNodeAtMiddle(int num, int pos);
+void FirstNodeDeletion();
 
 int main()
 {
-    int n, num, pos;
+    int n;
 
 
     printf(" Input the number of nodes : ");
@@ -21,22 +21,9 @@ int main()
     createNodeList(n);
     printf("\n Data entered in the list : \n");
     displayList();
-    printf("\n Input data to insert in the middle of the list : ");
-    scanf("%d", &num);
-    printf(" Input the position to insert new node : ");
-    scanf("%d", &pos);
-    printf("\n Data after inserted in the list are : \n");
-        if(pos<=1 || pos>=n)
-    {
-            printf("\n Insertion can not be possible in that position.\n");
-        }
-        if(pos>1 && pos<n)
-        {
-            insertNodeAtMiddle(num, pos);
-            printf("\n Insertion completed successfully.\n");
-        }
-        printf("\n The new list are : \n");
-        displayList();
+    FirstNodeDeletion();
+    printf("\n Data after deletion of the first node : \n");
+    displayList();
 
     return 0;
 }
@@ -83,36 +70,19 @@ void createNodeList(int n)
     }
 }
 
-void insertNodeAtMiddle(int num, int pos)
+void FirstNodeDeletion()
 {
-    int i;
-    struct node *fnNode, *tmp;
-    fnNode = (struct node*)malloc(sizeof(struct node));
-    if(fnNode == NULL)
+    struct node *toDelptr;
+    if(stnode == NULL)
     {
-        printf(" Memory can not be allocated.");
+        printf(" There are no node in the list. ");
     }
     else
     {
-        fnNode->num = num;
-        fnNode->nextptr = NULL;
-        tmp = stnode;
-        for(i=2;i<=pos-1;i++)
-        {
-            tmp = tmp->nextptr;
-
-            if(tmp == NULL)
-                break;
-        }
-        if(tmp != NULL)
-        {
-            fnNode->nextptr = tmp->nextptr;
-            tmp->nextptr = fnNode;
-        }
-        else
-        {
-            printf("Insert is not posible to the given position. \n");
-        }
+        toDelptr = stnode;
+        stnode = stnode->nextptr;
+        printf("\n Data of node 1 which is being deleted is : %d\n", toDelptr->num);
+        free(toDelptr);
     }
 }
 
