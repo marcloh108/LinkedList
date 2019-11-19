@@ -11,7 +11,7 @@ struct node
 
 
 void DlListcreation(int n);
-void DlListDeleteFirstNode();
+void DlListDeleteLastNode();
 void displayDlList(int a);
 
 int main()
@@ -25,7 +25,7 @@ int main()
     DlListcreation(n);
     a=1;
     displayDlList(a);
-    DlListDeleteFirstNode();
+    DlListDeleteLastNode();
     a=2;
     displayDlList(a);
     return 0;
@@ -76,7 +76,7 @@ void DlListcreation(int n)
     }
 }
 
-void DlListDeleteFirstNode()
+void DlListDeleteLastNode()
 {
     struct node * NodeToDel;
     if(ennode == NULL)
@@ -85,9 +85,9 @@ void DlListDeleteFirstNode()
     }
     else
     {
-        NodeToDel = stnode;
-        stnode = stnode->nextptr;
-        stnode->preptr = NULL;
+        NodeToDel = ennode;
+        ennode = ennode->preptr;
+        ennode->nextptr = NULL;
         free(NodeToDel);
     }
 }
