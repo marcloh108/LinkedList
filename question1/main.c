@@ -9,11 +9,11 @@ struct node
 
 void createNodeList(int n); // function to create the list
 void displayList();         // function to display the list
-int NodeCount();
+void NodeInsertatBegin(int num);
 
 int main()
 {
-    int n, totalNode;
+    int n, num;
         printf("\n\n Linked List : Create a singly linked list and print it in reverse order :\n");
         printf("-------------------------------------------------------------\n");
 
@@ -22,8 +22,12 @@ int main()
     createNodeList(n);
     printf("\n Data entered in the list : \n");
     displayList();
-    totalNode = NodeCount();
-    printf("\n Total number of nodes = %d\n", totalNode);
+    printf("\n Input data to insert at the beginning of the list : ");
+    scanf("%d", &num);
+    NodeInsertatBegin(num);
+    printf("\n Data after inserted in the list are : \n");
+    displayList();
+
     return 0;
 }
 void createNodeList(int n)
@@ -69,17 +73,20 @@ void createNodeList(int n)
     }
 }
 
-int NodeCount()
+void NodeInsertatBegin(int num)
 {
-    int ctr = 0;
-    struct node *tmp;
-    tmp = stnode;
-    while(tmp != NULL)
+    struct node *fnNode;
+    fnNode = (struct node*)malloc(sizeof(struct node));
+    if(fnNode == NULL)
     {
-        ctr++;
-        tmp = tmp->nextptr;
+        printf(" Memory can not be allocated.");
     }
-    return ctr;
+    else
+    {
+        fnNode->num = num;
+        fnNode->nextptr = stnode;
+        stnode = fnNode;
+    }
 }
 
 void displayList()
