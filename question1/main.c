@@ -3,116 +3,59 @@
 
 struct node
 {
-    int num;                        //Data of the node
-    struct node *nextptr;           //Address of the next node
-}*stnode;
+  int num;
+  struct node *nextptr;
+}
 
-void createNodeList(int n); // function to create the list
-void displayList();         // function to display the list
-void LastNodeDeletion();
+stnode, *ennode;
 
-int main()
+int FindElement(int);
+void main()
 {
-    int n, num, pos;
-
+    int n,i,FindElem,FindPlc;
+    stnode.nextptr=NULL;
+    ennode=&stnode;
 
     printf(" Input the number of nodes : ");
     scanf("%d", &n);
-    createNodeList(n);
-    printf("\n Data entered in the list : \n");
-    displayList();
-    LastNodeDeletion();
-        printf("\n The new list after deletion the last node are : \n");
-    displayList();
-
-    return 0;
-}
-void createNodeList(int n)
-{
-    struct node *fnNode, *tmp;
-    int num, i;
-    stnode = (struct node *)malloc(sizeof(struct node));
-
-    if(stnode == NULL) //check whether the fnnode is NULL and if so no memory allocation
+    printf("\n");
+    for(i=0;i< n;i++)
     {
-        printf(" Memory can not be allocated.");
+        ennode->nextptr=(struct node *)malloc(sizeof(struct node));
+        printf(" Input data for node %d : ",i+1);
+        scanf("%d",&ennode->num);
+        ennode=ennode->nextptr;
     }
+    ennode->nextptr=NULL;
+    printf("\n Data entered in the list are :\n");
+
+    ennode=&stnode;
+    while(ennode->nextptr!=NULL)
+    {
+        printf(" Data = %d\n",ennode->num);
+        ennode=ennode->nextptr;
+    }
+
+    printf("\n");
+    printf(" Input the element to be searched : ");
+    scanf("%d",&FindElem);
+    FindPlc=FindElement(FindElem);
+    if(FindPlc<=n)
+        printf(" Element found at node %d \n\n",FindPlc);
     else
-    {
-// reads data for the node through keyboard
-
-        printf(" Input data for node 1 : ");
-        scanf("%d", &num);
-        stnode->num = num;
-        stnode->nextptr = NULL; // links the address field to NULL
-        tmp = stnode;
-// Creating n nodes and adding to linked list
-        for(i=2; i<=n; i++)
-        {
-            fnNode = (struct node *)malloc(sizeof(struct node));
-            if(fnNode == NULL)
-            {
-                printf(" Memory can not be allocated.");
-                break;
-            }
-            else
-            {
-                printf(" Input data for node %d : ", i);
-                scanf(" %d", &num);
-
-                fnNode->num = num;      // links the num field of fnNode with num
-                fnNode->nextptr = NULL; // links the address field of fnNode with NULL
-
-                tmp->nextptr = fnNode; // links previous node i.e. tmp to the fnNode
-                tmp = tmp->nextptr;
-            }
-        }
-    }
+        printf(" This element does not exists in linked list.\n\n");
 }
-
-void LastNodeDeletion(int pos)
+int FindElement(int FindElem)
 {
-    struct node *toDellast, *preNode;
-    if(stnode == NULL)
+    int ctr=1;
+    ennode=&stnode;
+    while(ennode->nextptr!=NULL)
     {
-        printf(" There are no node in the list. ");
-    }
-    else
-    {
-        toDellast = stnode;
-        preNode = stnode;
-        while(toDellast->nextptr != NULL)
-        {
-            preNode = toDellast;
-            toDellast = toDellast->nextptr;
-        }
-        if(toDellast == stnode)
-        {
-            stnode = NULL;
-        }
+        if(ennode->num==FindElem)
+            break;
         else
-        {
-            preNode->nextptr = NULL;
-        }
-        free(toDellast);
-
+            ctr++;
+            ennode=ennode->nextptr;
     }
-}
-
-void displayList()
-{
-    struct node *tmp;
-    if(stnode == NULL)
-    {
-        printf(" List is empty.");
-    }
-    else
-    {
-        tmp = stnode;
-        while(tmp != NULL)
-        {
-            printf(" Data = %d\n", tmp->num);       // prints the data of current node
-            tmp = tmp->nextptr;                     // advances the position of current node
-        }
-    }
+    return ctr;
 }
