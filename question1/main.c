@@ -9,17 +9,21 @@ struct node
 
 void createNodeList(int n); // function to create the list
 void displayList();         // function to display the list
+void displayList();
 
 int main()
 {
     int n;
-        printf("\n\n Linked List : To create and display Singly Linked List :\n");
+        printf("\n\n Linked List : Create a singly linked list and print it in reverse order :\n");
         printf("-------------------------------------------------------------\n");
 
     printf(" Input the number of nodes : ");
     scanf("%d", &n);
     createNodeList(n);
     printf("\n Data entered in the list : \n");
+    displayList();
+    reverseDispList();
+    printf("\n The list in reverse are : \n");
     displayList();
     return 0;
 }
@@ -65,6 +69,31 @@ void createNodeList(int n)
         }
     }
 }
+
+void reverseDispList()
+{
+    struct node * prevNode, *curNode;
+
+    if(stnode != NULL)
+    {
+        prevNode = stnode;
+        curNode = stnode->nextptr;
+        stnode = stnode->nextptr;
+
+        prevNode->nextptr = NULL; //convert the first node as last
+
+        while(stnode != NULL)
+        {
+            stnode = stnode->nextptr;
+            curNode->nextptr = prevNode;
+
+            prevNode = curNode;
+            curNode = stnode;
+        }
+        stnode = prevNode;
+    }
+}
+
 void displayList()
 {
     struct node *tmp;
