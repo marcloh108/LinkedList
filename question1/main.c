@@ -1,35 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node
-{
+struct node {
     int num;
     struct node * nextptr;
-}
-*stnode;
+}*stnode;
 
+struct node *tail,*p,*q,*store;
 
 void ClListcreation(int n);
-void ClLinsertNodeAtBeginning(int num);
-void ClLinsertNodeAtAny(int num, int pos);
+void ClListDeleteFirstNode();
 void displayClList(int a);
 
 int main()
 {
-    int n, num1, a, insPlc;
+    int n,num1,a,insPlc;
     stnode = NULL;
 
     printf(" Input the number of nodes : ");
     scanf("%d", &n);
     ClListcreation(n);
-    a = 1;
+    a=1;
     displayClList(a);
-    printf(" Input the position to insert a new node : ");
-    scanf("%d", &insPlc);
-    printf(" Input data for the position %d : ", insPlc);
-    scanf("%d", &num1);
-    ClLinsertNodeAtAny(num1, insPlc);
-    a = 2;
+    ClListDeleteFirstNode();
+    a=2;
     displayClList(a);
     return 0;
 }
@@ -41,78 +35,46 @@ void ClListcreation(int n)
 
     if(n >= 1)
     {
-            stnode = (struct node *)malloc(sizeof(struct node));
-            printf(" Input data for node 1 : "); // assigning data in the first node
+        stnode = (struct node *)malloc(sizeof(struct node));
+
+        printf(" Input data for node 1 : ");
+        scanf("%d", &num);
+        stnode->num = num;
+        stnode->nextptr = NULL;
+        preptr = stnode;
+        for(i=2; i<=n; i++)
+        {
+            newnode = (struct node *)malloc(sizeof(struct node));
+            printf(" Input data for node %d : ", i);
             scanf("%d", &num);
-            stnode->num = num;
-            stnode->nextptr = NULL;
-            preptr = stnode;
-            for(i=2; i<=n; i++)
-            {
-                    newnode = (struct node *)malloc(sizeof(struct node));
-                    printf(" Input data for node %d : ", i);
-                    scanf("%d", &num);
-                    newnode->num = num;
-                    newnode->nextptr = NULL;
-                    preptr->nextptr = newnode;
-                    preptr = newnode;
-             }
-                preptr->nextptr = stnode;
-    }
-}
-
-void ClLinsertNodeAtBeginning(int num)
-{
-    struct node *newnode, *curNode;
-    if(stnode == NULL)
-    {
-        printf(" No data found in the List yet.");
-    }
-    else
-    {
-        newnode = (struct node *)malloc(sizeof(struct node));
-        newnode->num = num;
-        newnode->nextptr = stnode;
-        curNode = stnode;
-        while(curNode->nextptr != stnode)
-        {
-           curNode = curNode->nextptr;
+            newnode->num = num;
+            newnode->nextptr = NULL;	// next address of new node set as NULL
+            preptr->nextptr = newnode;	// previous node is linking with new node
+            preptr = newnode;   		// previous node is advanced
         }
-        curNode->nextptr = newnode;
-        stnode = newnode;
+        preptr->nextptr = stnode; 		//last node is linking with first node
     }
 }
 
-void ClLinsertNodeAtAny(int num, int pos)
+void ClListDeleteFirstNode()
 {
-    struct node *newnode, *curNode;
-    int i;
-
-    if(stnode == NULL)
-    {
-        printf(" No data found in the list yet.");
-    }
-    else if(pos == 1)
-    {
-        ClLinsertNodeAtBeginning(num);
-    }
-    else
-    {
-        newnode = (struct node *)malloc(sizeof(struct node));
-        newnode->num = num;
-        curNode = stnode;
-        for(i = 2; i <= pos-1; i++)
+        p=stnode;
+        while(p->nextptr!=stnode)
         {
-            curNode = curNode->nextptr;
+            p=p->nextptr;
         }
-        newnode->nextptr = curNode->nextptr;
-        curNode->nextptr = newnode;
-    }
+        store=stnode;
+        stnode=stnode->nextptr;
+        printf("\n The deleted node is -> %d",store->num);
+        p->nextptr=stnode;
+        free (store);
 }
+
 void displayClList(int m)
 {
-    struct node * tmp;
+    struct node *tmp;
     int n = 1;
+
     if(stnode == NULL)
     {
         printf(" No data found in the List yet.");
@@ -126,13 +88,13 @@ void displayClList(int m)
         }
         else
         {
-            printf("\n After insertion the new list are :\n");
+         printf("\n After deletion the new list are :\n");
         }
-        do
-        {
-            printf(" Data %d : %d\n", n, tmp->num);
+        do {
+            printf(" Data %d = %d\n", n, tmp->num);
+
+            tmp = tmp->nextptr;
             n++;
-            tmp = tmp->nextptr; // current pointer moves to the next node
         }while(tmp != stnode);
     }
 }
