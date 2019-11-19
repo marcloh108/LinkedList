@@ -11,9 +11,7 @@ struct node
 
 
 void DlListcreation(int n);
-void DlLinsertNodeAtBeginning(int num);
-void DlLinsertNodeAtEnd(int num);
-void DlLinsertNodeAtAny(int num, int pos);
+void DlLinsertNodeAtMiddle(int num, int pos);
 void displayDlList(int a);
 
 int main()
@@ -22,18 +20,26 @@ int main()
     stnode = NULL;
     ennode = NULL;
 
-    printf(" Input the number of nodes : ");
+    printf(" Input the number of nodes (3 or more): ");
     scanf("%d", &n);
     DlListcreation(n);
     a=1;
     displayDlList(a);
-    printf(" Input the position ( 1 to %d ) to insert a new node : ",n+1);
+    printf(" Input the position ( 2 to %d ) to insert a new node : ",n-1);
     scanf("%d", &insPlc);
-    printf(" Input data for the position %d : ", insPlc);
-    scanf("%d", &num1);
-    DlLinsertNodeAtAny(num1,insPlc);
-    a=2;
-    displayDlList(a);
+
+    if (insPlc<=1 || insPlc>=n)
+    {
+        printf("\n Invalid position. Try again.\n");
+    }
+        if(insPlc>1 && insPlc<n)
+        {
+            printf(" Input data for the position %d : ", insPlc);
+            scanf("%d", &num1);
+            DlLinsertNodeAtMiddle(num1, insPlc);
+            a=2;
+            displayDlList(a);
+        }
     return 0;
 }
 
@@ -82,7 +88,7 @@ void DlListcreation(int n)
     }
 }
 
-void DlLinsertNodeAtAny(int num, int pos)
+void DlLinsertNodeAtMiddle(int num, int pos)
 {
     int i;
     struct node * newnode, *tmp;
@@ -99,15 +105,7 @@ void DlLinsertNodeAtAny(int num, int pos)
             tmp = tmp->nextptr;
             i++;
         }
-        if(pos == 1)
-        {
-            DlLinsertNodeAtBeginning(num);
-        }
-        else if(tmp == ennode)
-        {
-            DlLinsertNodeAtEnd(num);
-        }
-        else if(tmp!=NULL)
+        if(tmp!=NULL)
         {
             newnode = (struct node *)malloc(sizeof(struct node));
             newnode->num = num;
@@ -127,43 +125,7 @@ void DlLinsertNodeAtAny(int num, int pos)
         }
     }
 }
-void DlLinsertNodeAtBeginning(int num)
-{
-    struct node * newnode;
-    if(stnode == NULL)
-    {
-        printf(" No data found in the list!\n");
-    }
-    else
-    {
-        newnode = (struct node *)malloc(sizeof(struct node));
-        newnode->num = num;
-        newnode->nextptr = stnode;  // next address of new node is linking with starting node
-        newnode->preptr = NULL;     // set previous address field of new node is NULL
-        stnode->preptr = newnode;   // previous address of starting node is linking with new node
-        stnode = newnode;           // set the new node as starting node
-    }
-}
 
-
-void DlLinsertNodeAtEnd(int num)
-{
-    struct node * newnode;
-
-    if(ennode == NULL)
-    {
-        printf(" No data found in the list!\n");
-    }
-    else
-    {
-        newnode = (struct node *)malloc(sizeof(struct node));
-        newnode->num = num;
-        newnode->nextptr = NULL;        // set next address field of new node  is NULL
-        newnode->preptr = ennode;       // previous address of new node is linking with ending node
-        ennode->nextptr = newnode;      // next address of ending node is linking with new node
-        ennode = newnode;               // set the new node as ending node
-    }
-}
 
 void displayDlList(int m)
 {
