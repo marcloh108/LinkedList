@@ -11,7 +11,9 @@ struct node
 
 
 void DlListcreation(int n);
+void DlListDeleteFirstNode();
 void DlListDeleteLastNode();
+void DlListDeleteAnyNode(int pos);
 void displayDlList(int a);
 
 int main()
@@ -25,9 +27,19 @@ int main()
     DlListcreation(n);
     a=1;
     displayDlList(a);
-    DlListDeleteLastNode();
-    a=2;
-    displayDlList(a);
+    printf(" Input the position ( 1 to %d ) to delete a node : ",n);
+    scanf("%d", &insPlc);
+
+    if(insPlc<1 || insPlc>n)
+    {
+        printf("\n Invalid position. Try again. \n");
+    }
+        if(insPlc>=1 && insPlc<=n)
+        {
+            DlListDeleteAnyNode(insPlc);
+            a=2;
+            displayDlList(a);
+        }
     return 0;
 }
 
@@ -73,6 +85,52 @@ void DlListcreation(int n)
         {
             printf(" Memory can not be allocated.");
         }
+    }
+}
+
+void DlListDeleteAnyNode(int pos)
+{
+    struct node *curNode;
+    int i;
+
+    curNode = stnode;
+    for(i=1;i<pos && curNode!=NULL;i++)
+    {
+        curNode = curNode->nextptr;
+    }
+
+    if(pos == 1)
+    {
+        DlListDeleteFirstNode();
+    }
+    else if(curNode == ennode)
+    {
+        DlListDeleteLastNode();
+    }
+    else if(curNode != NULL)
+    {
+        curNode->preptr->nextptr = curNode->nextptr;
+        curNode->nextptr->preptr = curNode->preptr;
+    }
+    else
+    {
+        printf(" The given position is invalid\n");
+    }
+}
+
+void DlListDeleteFirstNode()
+{
+    struct node * NodeToDel;
+    if(stnode == NULL)
+    {
+        printf(" Delete is not possible. No data in the list.\n");
+    }
+    else
+    {
+        NodeToDel = stnode;
+        stnode = stnode->nextptr;
+        stnode->preptr = NULL;
+        free(NodeToDel);
     }
 }
 
