@@ -4,26 +4,32 @@
 struct node {
     int num;
     struct node * nextptr;
-}*stnode;
-
-struct node *tail,*p,*q,*store;
+}*stnode, *ennode;
 
 void ClListcreation(int n);
-void ClListDeleteLastNode();
-void displayClList(int a);
+int FindElement(int FindElem, int n);
+void displayClList();
 
 int main()
 {
-    int n,num1,a,pos;
+    int n,m;
+    int i, FindElem, FindPlc;
     stnode = NULL;
+    ennode = NULL;
     printf(" Input the number of nodes : ");
     scanf("%d", &n);
+    m=n;
     ClListcreation(n);
-    a=1;
-    displayClList(a);
-    ClListDeleteLastNode();
-    a=2;
-    displayClList(a);
+    displayClList();
+    printf(" Input the element you want to find : ");
+    scanf("%d", &FindElem);
+
+    FindPlc=FindElement(FindElem,m);
+    if(FindPlc<n)
+        printf(" Element found at node %d \n\n", FindPlc);
+    else
+        printf(" This element does not exists in linked list.\n\n");
+
     return 0;
 }
 
@@ -55,20 +61,24 @@ void ClListcreation(int n)
     }
 }
 
-void ClListDeleteLastNode()
+int FindElement(int FindElem, int a)
 {
-        p=stnode;
-        while(p->nextptr!=stnode)
+        int ctr = 1;
+        ennode = stnode;
+        while(ennode->nextptr!=NULL)
         {
-            q=p;
-            p=p->nextptr;
+            if(ennode->num==FindElem)
+                break;
+            else
+                ctr++;
+                ennode=ennode->nextptr;
+                if(ctr==a+1)
+                    break;
         }
-        q->nextptr=stnode;
-        printf("\n The deleted node is : %d",p->num);
-        free(p);
+        return ctr;
 }
 
-void displayClList(int m)
+void displayClList()
 {
     struct node *tmp;
     int n = 1;
@@ -80,14 +90,9 @@ void displayClList(int m)
     else
     {
         tmp = stnode;
-        if (m==1)
-        {
+
         printf("\n Data entered in the list are :\n");
-        }
-        else
-        {
-         printf("\n After deletion the new list are :\n");
-        }
+
         do {
             printf(" Data %d = %d\n", n, tmp->num);
 
