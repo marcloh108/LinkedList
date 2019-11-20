@@ -2,102 +2,58 @@
 #include <stdlib.h>
 
 struct node {
-    int num;
-    struct node * nextptr;
-}*stnode, *ennode;
-
-void ClListcreation(int n);
-int FindElement(int FindElem, int n);
-void displayClList();
+    int data;
+    struct node *next;
+};
 
 int main()
 {
-    int n,m;
-    int i, FindElem, FindPlc;
-    stnode = NULL;
-    ennode = NULL;
-    printf(" Input the number of nodes : ");
-    scanf("%d", &n);
-    m=n;
-    ClListcreation(n);
-    displayClList();
-    printf(" Input the element you want to find : ");
-    scanf("%d", &FindElem);
-
-    FindPlc=FindElement(FindElem,m);
-    if(FindPlc<n)
-        printf(" Element found at node %d \n\n", FindPlc);
-    else
-        printf(" This element does not exists in linked list.\n\n");
-
-    return 0;
-}
-
-void ClListcreation(int n)
-{
-    int i, num;
-    struct node *preptr, *newnode;
-
-    if(n >= 1)
+    struct node *temp1, *temp2, *t, *newNode, *startList;
+    int n,k,i,j;
+    startList=NULL;
+    printf(" Input number of elements in the linked list?");
+    scanf(" %d", &n);
+    printf(" Input the elements in the linked list:\n");
+    for(i=1;i<=n;i++)
     {
-        stnode = (struct node *)malloc(sizeof(struct node));
-
-        printf(" Input data for node 1 : ");
-        scanf("%d", &num);
-        stnode->num = num;
-        stnode->nextptr = NULL;
-        preptr = stnode;
-        for(i=2; i<=n; i++)
+        if(startList==NULL)
         {
-            newnode = (struct node *)malloc(sizeof(struct node));
-            printf(" Input data for node %d : ", i);
-            scanf("%d", &num);
-            newnode->num = num;
-            newnode->nextptr = NULL;	// next address of new node set as NULL
-            preptr->nextptr = newnode;	// previous node is linking with new node
-            preptr = newnode;   		// previous node is advanced
+            newNode=(struct node *)malloc(sizeof(struct node));
+            scanf("%d", &newNode->data);
+            newNode->next=NULL;
+            startList = newNode;
+            temp1=startList;
         }
-        preptr->nextptr = stnode; 		//last node is linking with first node
-    }
-}
-
-int FindElement(int FindElem, int a)
-{
-        int ctr = 1;
-        ennode = stnode;
-        while(ennode->nextptr!=NULL)
+        else
         {
-            if(ennode->num==FindElem)
-                break;
-            else
-                ctr++;
-                ennode=ennode->nextptr;
-                if(ctr==a+1)
-                    break;
+            newNode=(struct node *)malloc(sizeof(struct node));
+            scanf("%d",&newNode->data);
+            newNode->next=NULL;
+            temp1->next=newNode;
+            temp1=newNode;
         }
-        return ctr;
-}
-
-void displayClList()
-{
-    struct node *tmp;
-    int n = 1;
-
-    if(stnode == NULL)
-    {
-        printf(" No data found in the List yet.");
     }
-    else
+    for(i=n-2;i>=0;i--)
     {
-        tmp = stnode;
-
-        printf("\n Data entered in the list are :\n");
-
-        do {
-            printf(" Data %d = %d\n", n, tmp->num);
-
-            tmp = tmp->nextptr;
-            n++;
-        }while(tmp != stnode);
+        temp1=startList;
+        temp2=temp1->next;
+        for(j=0;j<=i;j++)
+        {
+            if(temp1->data > temp2->data)
+            {
+                k=temp1->data;
+                temp1->data=temp2->data;
+                temp2->data=k;
+            }
+            temp1=temp2;
+            temp2=temp2->next;
+        }
+    }
+    printf("Sorted order is: \n");
+    t=startList;
+    while(t!=NULL)
+    {
+        printf(" %d\t", t->data);
+        t=t->next;
     }
 }
